@@ -36,18 +36,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #apps
+    # apps
     'book.apps.BookConfig',
 
     # library
     'rest_framework',
+    'django_filters',
     'mptt',
     'django_jalali',
-
 
 ]
 
 AUTH_USER_MODEL = 'book.Profile'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,8 +88,12 @@ WSGI_APPLICATION = 'taaghche.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'book_db',
+        'USER': 'postgres',
+        'PASSWORD': '021',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
