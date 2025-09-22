@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # apps
+    'account',
     'book.apps.BookConfig',
 
     # library
@@ -46,8 +47,6 @@ INSTALLED_APPS = [
     'django_jalali',
 
 ]
-
-AUTH_USER_MODEL = 'book.Profile'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],

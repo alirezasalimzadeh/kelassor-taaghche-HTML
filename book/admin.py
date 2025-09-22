@@ -1,10 +1,10 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 
-from book.models import Profile, PrintedBook, AudioBook, Category
+from book.models import PrintedBook, AudioBook, Category
 
 admin.site.register(Category, DraggableMPTTAdmin)
-admin.site.register(Profile)
+# admin.site.register(Profile)
 
 
 @admin.register(PrintedBook)

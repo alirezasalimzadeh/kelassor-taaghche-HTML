@@ -4,19 +4,6 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class Profile(AbstractUser):
-    email = models.EmailField(unique=True, verbose_name='ایمیل')
-    wallet = models.PositiveIntegerField(default=0, verbose_name='کیف پول')
-    is_unlimited = models.BooleanField(default=False, verbose_name='اشتراک بی نهایت')
-
-    def __str__(self):
-        return self.email
-
-    class Meta:
-        verbose_name = 'کاربر'
-        verbose_name_plural = 'کاربران'
-
-
 class Category(MPTTModel):
     name = models.CharField(max_length=100, unique=True, verbose_name='دسته بندی')
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children',
@@ -35,7 +22,7 @@ class Category(MPTTModel):
         return self.name
 
 
-class Book(models.Model):
+class BaseBook(models.Model):
     BOOK_TYPE_CHOICES = [
         ('epub', 'EPUB'),
         ('pdf', 'PDF'),
@@ -62,7 +49,7 @@ class Book(models.Model):
         return f"{self.name} | {self.author} | {self.rate}"
 
 
-class PrintedBook(Book):
+class PrintedBook(BaseBook):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='books', verbose_name="دسته بندی")
     collector = models.CharField(max_length=100, blank=True, null=True, verbose_name="گرد آورنده")
     publisher = models.CharField(max_length=100, verbose_name="انتشارات")
@@ -71,10 +58,10 @@ class PrintedBook(Book):
 
     class Meta:
         verbose_name = 'کتاب'
-        verbose_name_plural = 'کتاب'
+        verbose_name_plural = 'کتاب ها'
 
 
-class AudioBook(Book):
+class AudioBook(BaseBook):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='audiobooks', verbose_name="دسته بندی")
     speaker = models.CharField(max_length=100, verbose_name="گوینده")
     time = models.PositiveIntegerField(default=0, verbose_name="زمان")
