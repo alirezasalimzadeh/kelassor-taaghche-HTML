@@ -16,8 +16,6 @@ class Category(MPTTModel):
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'
 
-
-
     def __str__(self):
         return self.name
 
@@ -31,6 +29,7 @@ class BaseBook(models.Model):
         ('wav', 'WAV')
     ]
     name = models.CharField(max_length=100, verbose_name="نام کتاب")
+    image = models.ImageField(upload_to='book_images', verbose_name="تصویر", null=True, blank=True)
     author = models.CharField(max_length=100, verbose_name="نویسنده")
     translator = models.CharField(max_length=100, blank=True, null=True, verbose_name="مترجم")
     rate = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)],
@@ -62,7 +61,8 @@ class PrintedBook(BaseBook):
 
 
 class AudioBook(BaseBook):
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='audiobooks', verbose_name="دسته بندی")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='audiobooks',
+                                 verbose_name="دسته بندی")
     speaker = models.CharField(max_length=100, verbose_name="گوینده")
     time = models.PositiveIntegerField(default=0, verbose_name="زمان")
     is_transferable = models.BooleanField(default=False, verbose_name="قابلیت انتقال دارد؟")
@@ -70,4 +70,3 @@ class AudioBook(BaseBook):
     class Meta:
         verbose_name = 'صوتی'
         verbose_name_plural = 'صوتی'
-

@@ -3,6 +3,8 @@ from django.urls import path
 from book import views
 
 urlpatterns = [
+
+    path('home/', views.home),
     # Category
     path('categories/', views.CategoryListCreate.as_view()),
     path('categories/<int:pk>/', views.CategoryDestroyUpdateRetrieve.as_view()),

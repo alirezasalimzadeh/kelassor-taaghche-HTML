@@ -3,6 +3,18 @@ from book.models import Category, AudioBook, PrintedBook
 from book.serializer import CategorySerializer, PrintedBookSerializer, AudioBookSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
+from django.shortcuts import render
+
+
+def home(request):
+    printed_books = PrintedBook.objects.all()
+    audiobooks = AudioBook.objects.all()
+
+    context = {
+        'printed_books': printed_books,
+        'audiobooks': audiobooks,
+    }
+    return render(request, 'book/index.html', context)
 
 
 class CategoryListCreate(generics.ListCreateAPIView):
@@ -13,7 +25,6 @@ class CategoryListCreate(generics.ListCreateAPIView):
 class CategoryDestroyUpdateRetrieve(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-
 
 
 class AudioBookListCreate(generics.ListCreateAPIView):
@@ -37,7 +48,6 @@ class PrintedBookListCreate(generics.ListCreateAPIView):
 class AudioBookDestroyUpdateRetrieve(generics.RetrieveUpdateDestroyAPIView):
     queryset = AudioBook.objects.all()
     serializer_class = AudioBookSerializer
-
 
 
 class PrintedBookDestroyUpdateRetrieve(generics.RetrieveUpdateDestroyAPIView):
